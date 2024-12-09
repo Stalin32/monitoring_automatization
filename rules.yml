@@ -1,0 +1,70 @@
+groups:
+- name: common_rules
+  rules:
+  - alert: Большая загрузка оперативной памяти
+    expr: ((1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100) > 90
+    for: 1m
+    annotations:
+      title: 'Большой расход оперативной памяти'
+      description: 'Объем оперативной памяти заполнено более чем на 90%'
+    labels:
+      severity: 'Критично!'
+
+  - alert: Диск переполнен
+    expr: 100 - ((node_filesystem_avail_bytes{mountpoint="/",fstype!="rootfs"}  / node_filesystem_size_bytes{mountpoint="/",fstype!="rootfs"}) * 100) < 10
+    for: 5m
+    annotations:
+      title: 'Диск заполнился более чем на 90 %'
+      description: "\n \n На сервере {{ $labels.job }} диск заполнился более чем на 90%!\n \nКомандой \"df -h\" проверь точное количество свободного места\n \n Для просмотра размера папок используй команду \"du -h | sort -h\" \n "
+    labels:
+      severity: 'Критично!'
+
+  - alert: Диск почти переполнен
+    expr: 20 > (100 - ((node_filesystem_avail_bytes{mountpoint="/",fstype!="rootfs"}  / node_filesystem_size_bytes{mountpoint="/",fstype!="rootfs"}) * 100)) > 9
+    for: 1h
+    annotations:
+      title: 'Диск скоро заполнится'
+      description: "\n \n На сервере {{ $labels.job }} скоро переполнится диск\n \nКомандой \"df -h\" проверь точное количество свободного места\n \n Для просмотра размера папок используй команду \"du -h | sort -h\" \n \nХрен не пинай ->
+    labels:
+      severity: 'Тревожно'
+
+
+  - alert: СЕРВЕР НЕДОСТУПЕН!!!
+    expr: up{job="$job"}
+    for: 10s
+    annotations:
+      title: 'СЕРВЕР НЕДОСТУПЕН'
+      description: "\n \nСистема мониторинга потеряла связь с сервером {{ $labels.job }} \n \n Необходимо пропинговать сервер. \nЕсли пинг есть: \n1. Проверить доступность порта 9100\n2.Проверить фаервол\n \nЕсли пинга нет:\n1.Проверить>
+    labels:
+      severity: 'Критично!'
+
+  - alert: Большая нагрузка на CPU
+    expr: (100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[1m])) BY (job))) > 90
+    for: 5m
+    annotations:
+      title: 'Большая нагрузка на CPU'
+      description: "\n \nНа сервере {{ $labels.job }} CPU загружен более чем на 90%\n \nПодключись к серверу и с помощью команды \"htop\" посмотри процессы с большим потребление процессора\n \n"
+    labels:
+      severity: 'Критично!'
+
+#groups:
+#— name: ca
+#  rules:
+
+#  — alert: ps_High_memory_utiluzation
+#    expr: ((node_memory_MemAvailable_bytes{job=»ubuntu-desktop»} / node_memory_MemTotal_bytes{job=»ubuntu-desktop»}) * 100) < 50
+#    for: 1m
+#    annotations:
+#      title: ‘High memory utiluzation’
+#      description: ‘High memory utiluzation’
+#    labels:
+#      severity: ‘crit’
+
+  - alert: Остановлен контейнер Docker
+    expr: engine_daemon_container_states_containers{state="stopped"} > 0
+    for: 1m
+    annotations:
+      title: 'Отсановка контейнера'
+      description: "\n \n 1 или более контейнеров Docker остановлены.\n \n  На сервере {{ $labels.instance }} нужно проверить контейнеры командой \"docker ps -a\". \n "
+    labels:
+      severity: 'Критично!'
