@@ -2,6 +2,7 @@ version: "3.9"
 services:
   prometheus:
     image: prom/prometheus
+    container_name: prometheus
     ports:
       - "9090:9090"
     volumes:
@@ -14,6 +15,7 @@ services:
 
   grafana:
     image: grafana/grafana
+    container_name: grafana
     ports:
       - "3000:3000"
     volumes:
@@ -27,15 +29,17 @@ services:
 
   alertmanager:
     image: prom/alertmanager
+    container_name: alertmanager
     ports:
       - "9093:9093"
     volumes:
-      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    #  - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
       - ./alertmanager/data:/alertmanager/data
     restart: unless-stopped
 
   loki:
     image: grafana/loki:latest
+    container_name: loki
     ports:
       - "3100:3100"
     volumes:
