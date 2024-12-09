@@ -10,7 +10,7 @@ services:
       - ./prometheus/data:/prometheus
       - ./prometheus/alertmanager.yml:/etc/prometheus/alertmanager.yml
       - logs:/var/log/prometheusquery.log
-    restart: unless-stopped
+    restart: always
     user: "root:root"
 
   grafana:
@@ -24,7 +24,7 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=grafanaadmin 
-    restart: unless-stopped
+    restart: always
     user: "root:root"
 
   alertmanager:
@@ -35,7 +35,7 @@ services:
     volumes:
     #  - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
       - ./alertmanager/data:/alertmanager/data
-    restart: unless-stopped
+    restart: always
 
   loki:
     image: grafana/loki:latest
@@ -44,7 +44,7 @@ services:
       - "3100:3100"
     volumes:
       - ./loki/data:/loki/data
-    restart: unless-stopped
+    restart: always
 
   promtail:
     image: grafana/promtail
@@ -56,7 +56,7 @@ services:
       - ./promtail/data:/promtail/data
       - /var/log:/var/log
       - logs:/var/apps
-    restart: unless-stopped
+    restart: always
     user: "root:root"
 
   node_exporter:
@@ -64,24 +64,27 @@ services:
     container_name: node_exporter
     ports:
       - "9100:9100"
-    restart: unless-stopped
+    restart: always
+
+
 
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
-    restart: unless-stopped
+    restart: always
     ports:
-      - "9000:9000"
+      - "8000:8000"
+      - "9443:9443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./portainer_data:/data
-    command:
-      - -H
-      - unix:///var/run/docker.sock
-      - --allow-docker-host
-    environment:
-      - TZ=Europe/Moscow
-      - PORTAINER_DATA_DIR=/data
+    #command:
+     # - -H
+     # - unix:///var/run/docker.sock
+     # - --allow-docker-host
+    #environment:
+    #  - TZ=Europe/Moscow
+    #  - PORTAINER_DATA_DIR=/data
 
 volumes:
   logs:
