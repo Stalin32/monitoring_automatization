@@ -30,7 +30,7 @@ services:
     ports:
       - "9093:9093"
     volumes:
-      - ./alertmanager/alertmanager.yml:/etc/alertmanager/config.yml #разобраться с этим
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
       - ./alertmanager/data:/alertmanager/data
     restart: unless-stopped
 
