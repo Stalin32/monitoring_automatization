@@ -48,7 +48,7 @@ services:
       - ./promtail/config.yaml:/etc/promtail/config.yaml
       - ./promtail/data:/promtail/data
       - /var/log:/var/log
-      - /grafana/logs:/grafana/logs
+      - ./grafana/logs:/grafana/logs
     restart: unless-stopped
     user: "root:root"
 
