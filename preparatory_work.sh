@@ -7,7 +7,7 @@ mkdir promtail
 mkdir grafana/data/
 mkdir loki/data/
 mkdir prometheus/data/
-mkdir prometheus/
+mkdir prometheus/rules
 mkdir promtail/data/
 mkdir alertmanager
 mkdir alertmanager/data
