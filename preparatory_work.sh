@@ -11,8 +11,8 @@ mkdir prometheus/rules
 mkdir promtail/data/
 mkdir alertmanager
 mkdir alertmanager/data
-mv prometheus.yml /prometheus
-mv config.yaml /promtail
-mv alertmanager.yml /prometheus/rules
-mv rules.yml /prometheus/rules
+mv prometheus.yml prometheus/
+mv config.yaml promtail/
+mv alertmanager.yml prometheus/rules/
+mv rules.yml prometheus/rules/
 
