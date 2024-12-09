@@ -6,6 +6,7 @@ scrape_configs:
         labels:
           job: system
           __path__: /var/log/*.log
+          __path__: /var/apps/*.log
 
     pipeline_stages:
     - regex:
