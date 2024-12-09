@@ -1,6 +1,7 @@
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
+  query_log_file: /prometheus/query.log
 
 rule_files:
   # - "first.rules"
