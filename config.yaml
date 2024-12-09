@@ -18,4 +18,4 @@ scrape_configs:
         level: '{{ .level }}'
 
 remote_write:
-  - url: http://loki:3100/loki/api/v1/push
+  - url: http://server_ip:3100/loki/api/v1/push
