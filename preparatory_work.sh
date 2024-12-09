@@ -8,5 +8,9 @@ mkdir grafana/data/
 mkdir loki/data/
 mkdir prometheus/data/
 mkdir promtail/data/
+mkdir alertmanager
+mkdir alertmanager/data
 mv prometheus.yml /prometheus
 mv config.yaml /promtail
+mv alertmanager.yml /alertmanager
+hostname -I >> server_ip.txt
