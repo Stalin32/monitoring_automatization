@@ -7,6 +7,7 @@ services:
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus/data:/prometheus
+      - ./prometheus/alertmanager.yml:/etc/prometheus/alertmanager.yml
       - logs:/prometheus/prometheusquery.log
     restart: unless-stopped
     user: "root:root"
@@ -29,7 +30,7 @@ services:
     ports:
       - "9093:9093"
     volumes:
-      - ./alertmanager/alertmanager.yml:/etc/alertmanager/config.yml
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/config.yml #разобраться с этим
       - ./alertmanager/data:/alertmanager/data
     restart: unless-stopped
 
