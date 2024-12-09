@@ -74,6 +74,7 @@ services:
       - ./portainer-data:/data
     ports:
       - 9000:9000
+    user: "root:root"  
 
 volumes:
   logs:
