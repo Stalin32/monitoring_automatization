@@ -15,4 +15,4 @@ mv prometheus.yml /prometheus
 mv config.yaml /promtail
 mv alertmanager.yml /prometheus/rules
 mv rules.yml /prometheus/rules
-hostname -I >> server_ip.txt
+
