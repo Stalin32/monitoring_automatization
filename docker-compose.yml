@@ -43,6 +43,7 @@ services:
       resources:
         limits:
           memory: 256M  
+    restart: always
 
   alertmanager:
     image: prom/alertmanager
