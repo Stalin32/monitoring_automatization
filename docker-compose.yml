@@ -109,3 +109,17 @@ volumes:
 
 
 ##apt install graphicsmagick-imagemagick-compat -y
+#установить nginx
+# в /var/www/html пишем
+#<html>
+#<img scr="/renders/copyright/1.png">
+#<img scr="/renders/copyright/2.png">
+
+#<br>
+
+#<img scr="/renders/1.png">
+#<img scr="/renders/2.png">
+
+</html>
+
+
