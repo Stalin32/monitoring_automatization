@@ -42,7 +42,7 @@ services:
       - "8081:8081"
     environment:
       TZ: "Europe/Moscow"
-      - EABLE_METRICS=true
+      EABLE_METRICS: "true"
     deploy:
       mode: replicated
       replicas: 1
