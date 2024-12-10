@@ -33,6 +33,8 @@ services:
   renderer:
     image: grafana/grafana-image-renderer:latest
     container_name: image-renderer
+    links:
+      - grafana
     ports:
       - "8081:8081"
     environment:
