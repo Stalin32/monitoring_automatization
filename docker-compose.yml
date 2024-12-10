@@ -25,6 +25,7 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=grafanaadmin 
       - GF_RENDERING_SERVER_URL=http://192.168.0.116:8081/render
+      - GR_RNDERING_CALLBACK_URL=http://192.168.0.116:3000
     restart: always
     user: "root:root"
 
