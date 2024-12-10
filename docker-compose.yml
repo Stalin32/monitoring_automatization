@@ -10,7 +10,7 @@ services:
       - ./prometheus/data:/prometheus
       - ./prometheus/alertmanager.yml:/etc/prometheus/alertmanager.yml
 #      - logs:/var/log/prometheusquery.log
-    restart: always
+    restart: unless-stopped
     user: "root:root"
 
   grafana:
@@ -24,9 +24,10 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=grafanaadmin 
+      - GF_SERVER_DOMAIN=192.168.0.116
       - GF_RENDERING_SERVER_URL=http://192.168.0.116:8081/render
       - GR_RNDERING_CALLBACK_URL=http://192.168.0.116:3000
-    restart: always
+    restart: unless-stopped
     user: "root:root"
 
   renderer:
@@ -44,7 +45,7 @@ services:
       resources:
         limits:
           memory: 256M  
-    restart: always
+    restart: unless-stopped
 
   alertmanager:
     image: prom/alertmanager
@@ -52,9 +53,8 @@ services:
     ports:
       - "9093:9093"
     volumes:
-    #  - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
       - ./alertmanager/data:/alertmanager/data
-    restart: always
+    restart: unless-stopped
 
   loki:
     image: grafana/loki:latest
@@ -63,7 +63,7 @@ services:
       - "3100:3100"
     volumes:
       - ./loki/data:/loki/data
-    restart: always
+    restart: unless-stopped
 
   promtail:
     image: grafana/promtail
@@ -75,7 +75,7 @@ services:
       - ./promtail/data:/promtail/data
       - /var/log:/var/log
       - logs:/var/apps
-    restart: always
+    restart: unless-stopped
     user: "root:root"
 
   node_exporter:
@@ -83,14 +83,13 @@ services:
     container_name: node_exporter
     ports:
       - "9100:9100"
-    restart: always
-
+    restart: unless-stopped
 
 
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
-    restart: always
+    restart: unless-stopped
     ports:
       - "8000:8000"
       - "9443:9443"
@@ -98,14 +97,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./portainer_data:/data
-    #command:
-     # - -H
-     # - unix:///var/run/docker.sock
-     # - --allow-docker-host
-    #environment:
-    #  - TZ=Europe/Moscow
-    #  - PORTAINER_DATA_DIR=/data
 
 volumes:
   logs:
 
+
+##apt install graphicsmagick-imagemagick-compat -y
