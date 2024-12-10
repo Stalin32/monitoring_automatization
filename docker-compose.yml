@@ -24,9 +24,12 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=grafanaadmin 
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SMTP_ENABLED=false
       - GF_SERVER_DOMAIN=192.168.0.116
       - GF_RENDERING_SERVER_URL=http://192.168.0.116:8081/render
       - GR_RNDERING_CALLBACK_URL=http://192.168.0.116:3000
+      - GF_LOG_FILTERS=rendering:debug
     restart: unless-stopped
     user: "root:root"
 
