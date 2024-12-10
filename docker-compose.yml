@@ -107,6 +107,7 @@ services:
 volumes:
   logs:
 
+#добавить blackbox probe
 
 ##apt install graphicsmagick-imagemagick-compat -y
 #установить nginx
