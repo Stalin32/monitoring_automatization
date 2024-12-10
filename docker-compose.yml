@@ -108,6 +108,7 @@ volumes:
   logs:
 
 #добавить blackbox probe
+#grafana oncall
 
 ##apt install graphicsmagick-imagemagick-compat -y
 #установить nginx
