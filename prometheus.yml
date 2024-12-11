@@ -15,7 +15,7 @@ rule_files:
 scrape_configs:
   - job_name: prometheus
     static_configs:
-      - targets: ['server_ip:9090']
-      - targets: ['server_ip:9100']
+      - targets: ['server_ip:9100'] # node_exporter
+      - targets: ['server_ip:9100'] # promtail
 
 #Работвть будет в докере, поэтому надо указывать внешний ip вместо example
