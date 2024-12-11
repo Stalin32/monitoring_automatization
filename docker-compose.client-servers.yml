@@ -4,7 +4,7 @@ services:
     container_name: cadvisor_exporter
     restart: unless-stopped
     ports:
-    - 8080:8080
+    - 7101:8080
     volumes:
     - /:/rootfs:ro
     - /var/run:/var/run:rw
@@ -16,7 +16,7 @@ services:
     container_name: systemd_exporter
     restart: unless-stopped
     ports:
-      - 9118:9118
+      - 7102:9118
     volumes:
       - /run/systemd/journal:/run/systemd/journal:ro
       - /var/run/dbus:/var/run/dbus:ro
@@ -27,7 +27,7 @@ services:
     container_name: postgres_exporter
     restart: unless-stopped
     ports:
-      - "9187:9187" # Порт для экспорта метрик
+      - "7103:9187" # Порт для экспорта метрик
     environment:
       - POSTGRES_PASSWORD=YOUR_POSTGRES_PASSWORD # Пароль пользователя PostgreSQL
       - POSTGRES_USER=YOUR_POSTGRES_USER # Пользователь PostgreSQL с правами на мониторинг
@@ -39,21 +39,23 @@ services:
     container_name: clickhouse_exporter
     restart: unless-stopped
     ports:
-      - "9104:9104" # Порт для экспорта метрик
+      - "7104:9104" # Порт для экспорта метрик
     environment:
       - CLICKHOUSE_URL=http://clickhouse:9000 # URL подключения к ClickHouse (замените на ваш)
       - CLICKHOUSE_USER=default # Пользователь ClickHouse (замените на ваш)
       - CLICKHOUSE_PASSWORD=YOUR_CLICKHOUSE_PASSWORD # Пароль ClickHouse (замените на ваш)
 
-  nginx_exporter:
-    image: prom/nginx-exporter:latest
+  nginx-prometheus-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
     container_name: nginx_exporter
-    restart: unless-stopped
+    command:
+        - --nginx.scrape-uri=http://nginx:8080/basic_status
     ports:
-      - "9119:9119" # Порт для экспорта метрик
-    environment:
-      - NGINX_HOST=your-nginx-host # Хост Nginx (localhost, IP или имя хоста)
-      - NGINX_PORT=80 # Порт Nginx (по умолчанию 80)  
+        - 7105:9113
+    networks:
+      - local
+      - internal
+
 
 
  kafka_exporter:
@@ -61,7 +63,7 @@ services:
     container_name: kafka_exporter
     restart: unless-stopped
     ports:
-      - "9120:9120" # Порт для экспорта метрик
+      - "7106:9120" # Порт для экспорта метрик
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=kafka1:9092,kafka2:9092,kafka3:9092 # Адреса брокеров Kafka (замените на ваши)
 
@@ -70,7 +72,7 @@ services:
     container_name: redis_exporter
     restart: unless-stopped
     ports:
-      - "9121:9121" # Порт для экспорта метрик
+      - "7107:9121" # Порт для экспорта метрик
     environment:
       - REDIS_ADDR=redis:6379 # Адрес Redis (замените на ваш)     
 
@@ -79,6 +81,12 @@ services:
     container_name: blackbox_exporter
     restart: unless-stopped
     ports:
-      - "9115:9115" # Порт для экспорта метрик
+      - "7108:9115" # Порт для экспорта метрик
     volumes:
       - ./blackbox.yml:/etc/blackbox_exporter/config.yml # Путь к конфигурационному файлу
+
+  networks:
+  internal:
+    driver: bridge
+  local:
+    driver: bridge
