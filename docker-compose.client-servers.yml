@@ -55,4 +55,21 @@ services:
       - NGINX_HOST=your-nginx-host # Хост Nginx (localhost, IP или имя хоста)
       - NGINX_PORT=80 # Порт Nginx (по умолчанию 80)  
 
-      
+
+ kafka_exporter:
+    image: prom/kafka-exporter:latest
+    container_name: kafka_exporter
+    restart: unless-stopped
+    ports:
+      - "9120:9120" # Порт для экспорта метрик
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka1:9092,kafka2:9092,kafka3:9092 # Адреса брокеров Kafka (замените на ваши)
+
+ redis_exporter:
+    image: prom/redis-exporter:latest
+    container_name: redis_exporter
+    restart: unless-stopped
+    ports:
+      - "9121:9121" # Порт для экспорта метрик
+    environment:
+      - REDIS_ADDR=redis:6379 # Адрес Redis (замените на ваш)     
