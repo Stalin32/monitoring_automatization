@@ -73,3 +73,12 @@ services:
       - "9121:9121" # Порт для экспорта метрик
     environment:
       - REDIS_ADDR=redis:6379 # Адрес Redis (замените на ваш)     
+
+  blackbox_exporter:
+    image: prom/blackbox-exporter:latest
+    container_name: blackbox_exporter
+    restart: unless-stopped
+    ports:
+      - "9115:9115" # Порт для экспорта метрик
+    volumes:
+      - ./blackbox.yml:/etc/blackbox_exporter/config.yml # Путь к конфигурационному файлу
