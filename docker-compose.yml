@@ -72,8 +72,8 @@ services:
       - --store=bolt
       - --bolt.path=/data/bot.db
     environment:
-      TELEGRAM_ADMIN: "1234"
-      TELEGRAM_TOKEN: XXXXXXX
+      TELEGRAM_ADMIN: "306966601"
+      TELEGRAM_TOKEN: 7434678440:AAE5or6QLYQKwmdgwh8lbENhYunbbbbV2bA
     ports:
       - 8080:8080
     restart: unless-stopped
