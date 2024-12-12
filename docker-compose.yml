@@ -28,9 +28,9 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=grafanaadmin 
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_SMTP_ENABLED=false
-      - GF_SERVER_DOMAIN=192.168.0.116
-      - GF_RENDERING_SERVER_URL=http://192.168.0.116:8081/render
-      - GR_RNDERING_CALLBACK_URL=http://192.168.0.116:3000
+      - GF_SERVER_DOMAIN=31.128.41.76
+      - GF_RENDERING_SERVER_URL=http://31.128.41.76:8081/render
+      - GR_RNDERING_CALLBACK_URL=http://31.128.41.76:3000
       - GF_LOG_FILTERS=rendering:debug
     restart: unless-stopped
     user: "root:root"
@@ -63,6 +63,22 @@ services:
     volumes:
       - ./alertmanager/data:/alertmanager/data
     restart: unless-stopped
+
+  alertmanager-bot:
+    image: metalmatze/alertmanager-bot:0.4.3
+    command:
+      - --alertmanager.url=http://localhost:9093
+      - --log.level=info
+      - --store=bolt
+      - --bolt.path=/data/bot.db
+    environment:
+      TELEGRAM_ADMIN: "1234"
+      TELEGRAM_TOKEN: XXXXXXX
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
 
   loki:
     image: grafana/loki:latest
