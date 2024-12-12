@@ -11,6 +11,7 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus/data:/prometheus
       - ./prometheus/alertmanager.yml:/etc/prometheus/alertmanager.yml
+      - ./prometheus/rules/rules.yml:/etc/prometheus/alertmanager.yml
 #      - logs:/var/log/prometheusquery.log
     restart: unless-stopped
     user: "root:root"
