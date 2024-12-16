@@ -45,13 +45,16 @@ services:
       - CLICKHOUSE_USER=default # Пользователь ClickHouse (замените на ваш)
       - CLICKHOUSE_PASSWORD=YOUR_CLICKHOUSE_PASSWORD # Пароль ClickHouse (замените на ваш)
 
-  nginx-prometheus-exporter:
-    image: nginx/nginx-prometheus-exporter:latest
-    container_name: nginx_exporter
-    command:
-        - --nginx.scrape-uri=http://nginx:8080/basic_status
+  nginx_exporter:
+    image: nginx/nginx-prometheus-exporter:1.4.0
     ports:
-        - 7105:9113
+      - "9113:9113"
+    depends_on:
+      - nginx
+    restart: always
+    command:
+      - -nginx.scrape-uri  #вот так вводить команды будет точно правильно 
+      - http://192.168.0.116:80/nginx_status
     networks:
       - local
       - internal
