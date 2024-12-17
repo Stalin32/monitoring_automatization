@@ -45,6 +45,7 @@ services:
       - CLICKHOUSE_USER=default # Пользователь ClickHouse (замените на ваш)
       - CLICKHOUSE_PASSWORD=YOUR_CLICKHOUSE_PASSWORD # Пароль ClickHouse (замените на ваш)
 
+###nginx exporter готов      
   nginx_exporter:
     image: nginx/nginx-prometheus-exporter:1.4.0
     ports:
