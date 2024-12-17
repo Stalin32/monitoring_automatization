@@ -59,17 +59,15 @@ services:
     networks:
       - local
       - internal
-
-
-
- kafka_exporter:
-    image: prom/kafka-exporter:latest
+###пока работает только в одном с kafka докер компоуз файле
+ kafka-exporter:
+    image: danielqsj/kafka-exporter
     container_name: kafka_exporter
+    command: ["--kafka.server=kafka:9092"]
     restart: unless-stopped
     ports:
-      - "7106:9120" # Порт для экспорта метрик
-    environment:
-      - KAFKA_BOOTSTRAP_SERVERS=kafka1:9092,kafka2:9092,kafka3:9092 # Адреса брокеров Kafka (замените на ваши)
+      - 9308:9308
+
 
  redis_exporter:
     image: prom/redis-exporter:latest
