@@ -22,18 +22,21 @@ services:
       - /var/run/dbus:/var/run/dbus:ro
     privileged: true
 
-  postgres_exporter:
-    image: prom/postgres-exporter:latest
+#необходимо поместить в один докер компоуз файл с постгрес
+  postgres-exporter:
+    image: quay.io/prometheuscommunity/postgres-exporter
     container_name: postgres_exporter
     restart: unless-stopped
     ports:
-      - "7103:9187" # Порт для экспорта метрик
+      - 9187:9187
     environment:
-      - POSTGRES_PASSWORD=YOUR_POSTGRES_PASSWORD # Пароль пользователя PostgreSQL
-      - POSTGRES_USER=YOUR_POSTGRES_USER # Пользователь PostgreSQL с правами на мониторинг
-      - POSTGRES_HOST=YOUR_POSTGRES_HOST # Хост PostgreSQL
-      - POSTGRES_PORT=YOUR_POSTGRES_PORT # Порт PostgreSQL
+      - DATA_SOURCE_NAME=postgresql://login:password@container_name_with_postgres:5432/db_name?sslmode=disable
+    networks:
+      - internal
+      - local
 
+
+#у кликхауса нужно раскомментировать конфиг постгреса и указать порт, экспортер не нужен
   clickhouse_exporter:
     image: prom/clickhouse-exporter:latest
     container_name: clickhouse_exporter
@@ -68,15 +71,18 @@ services:
     ports:
       - 9308:9308
 
-
- redis_exporter:
-    image: prom/redis-exporter:latest
-    container_name: redis_exporter
+#необходимо поместить в один докер компоуз файл с редис
+  redis-exporter-crm: 
+    image: oliver006/redis_exporter:v1.45.0
+    container_name: redis_exporter_crm
     restart: unless-stopped
     ports:
-      - "7107:9121" # Порт для экспорта метрик
+      - 9121:9121
     environment:
-      - REDIS_ADDR=redis:6379 # Адрес Redis (замените на ваш)     
+      REDIS_ADDR: redis://crm-redis:6379
+      REDIS_PASSWORD: DFGWG7EwVmmxKPCtyKVge8oLd2t81211
+    networks:
+      - local
 
   blackbox_exporter:
     image: prom/blackbox-exporter:latest
