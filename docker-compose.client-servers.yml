@@ -1,15 +1,20 @@
 services:
+#кадвизор работает с такой настройкой
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
-    container_name: cadvisor_exporter
-    restart: unless-stopped
+    image: gcr.io/cadvisor/cadvisor
+    restart: always
+    container_name: cadvisor
+    devices:
+      - "/dev/kmsg:/dev/kmsg"
     ports:
-    - 7101:8080
+      - "7106:8080"
     volumes:
-    - /:/rootfs:ro
-    - /var/run:/var/run:rw
-    - /sys:/sys:ro
-    - /var/lib/docker/:/var/lib/docker:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+
 
   systemd_exporter:
     image: prom/systemd-exporter:latest
